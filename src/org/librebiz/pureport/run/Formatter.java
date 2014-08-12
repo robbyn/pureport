@@ -84,10 +84,12 @@ public class Formatter {
     private void processContent(SectionContainer container) {
         for (Section section: container.getContent()) {
             section.accept(new SectionVisitor() {
+                @Override
                 public void processBand(Band band) {
                     addBand(band);
                 }
 
+                @Override
                 public void processIteration(Iteration iter) {
                     String id = getIterationId(iter);
                     Iterable col = getIterationCollection(iter);

@@ -5,6 +5,7 @@ public class Iteration extends SectionContainer implements Section {
     private String indexId;
     private String collection;
 
+    @Override
     public void accept(SectionVisitor visitor) {
         visitor.processIteration(this);
     }
