@@ -1,0 +1,136 @@
+<!DOCTYPE report PUBLIC "-//librebiz//DTD pureport 1.0//EN" "report.dtd">
+<report default-units="cm">
+    <page-layout left-margin="2.5cm" right-margin="1.5cm" top-margin="1.5cm" bottom-margin="1.5cm" />
+    <macro name="processItem" arguments="position,item">
+        <band>
+            <row />
+            <column width="9cm"/>
+            <column />
+            <column />
+            <column />
+            <column />
+            <cell>
+                <block align="left">
+                    <wrapper font-family="Verdana" font-size="16pt" font-style="normal">
+                        <expression value="position+1"/> 
+                        <expression value="item.label"/>
+                    </wrapper>
+                </block>
+            </cell>
+            <cell>
+                <block align="right">
+                    <wrapper font-family="Verdana" font-size="16pt" font-style="bold">
+                        <expression value='numberFormat.format(item.quantity)'/>
+                    </wrapper>
+                </block>
+            </cell>
+            <cell>
+                <block align="right">
+                    <wrapper font-family="Verdana" font-size="16pt" font-style="bold">
+                        <expression value='numberFormat.format(item.price)'/>
+                    </wrapper>
+                </block>
+            </cell>
+            <cell>
+                <block align="right">
+                    <wrapper font-family="Verdana" font-size="16pt" font-style="bold">
+                        <expression value='numberFormat.format(item.vat)'/>
+                    </wrapper>
+                </block>
+            </cell>
+            <cell>
+                <block align="right">
+                    <wrapper font-family="Verdana" font-size="16pt" font-style="bold">
+                        <expression value='numberFormat.format(item.quantity*item.price*(1+item.vat))' />
+                    </wrapper>
+                </block>
+            </cell>
+        </band>
+    </macro>
+    <before>
+        Quantity = Packages.org.librebiz.pureport.quantity.Quantity;
+        ImageIO = Packages.javax.imageio.ImageIO;
+        File = Packages.java.io.File;
+        URL = Packages.java.net.URL;
+
+        numberFormat = new java.text.DecimalFormat("0.00");
+        intFormat = new java.text.DecimalFormat("0");
+    </before>
+    <page-header>
+        <row />
+        <column />
+        <cell background="yellow">
+            <block align="justify">
+                <wrapper font-family="Verdana" font-size="16pt" font-style="bold">
+                    <image value='new URL("file:test/test4.jpg")'/>Pour permettre une migration progressive, le serveur Linux peut être configuré en passerelle entre les réseaux 192.9.200.0 et 192.168.3.0 il prendra l'adresse 192.9.200.254 qui est l'actuelle adresse de la passerelle par défaut, et le routeur pourra prendra son adresse définitive: 192.168.3.1. Les autres postes pourront être migrés progressivement.
+                </wrapper>
+            </block>
+            <block border="2pt solid black" align="center" left-margin="0.5cm" right-margin="0.5cm" top-margin="0.5cm" bottom-margin="0.5cm" background="cyan">
+                <wrapper font-family="Verdana" font-size="24pt" font-style="bold">
+                    <expression value="new Date()"/>
+                </wrapper>
+            </block>
+            <block align="justify">
+                <wrapper font-family="Verdana" font-size="16pt" font-style="bold">
+Pour permettre une migration progressive, le serveur Linux peut être configuré en passerelle entre les réseaux 192.9.200.0 et 192.168.3.0 il prendra l'adresse 192.9.200.254 qui est l'actuelle adresse de la passerelle par défaut, et le routeur pourra prendra son adresse définitive: 192.168.3.1. Les autres postes pourront être migrés progressivement.
+                </wrapper>
+            </block>
+        </cell>
+    </page-header>
+    <page-footer>
+        <row />
+        <column />
+        <cell background="yellow">
+            <block align="center">
+                <wrapper font-family="Verdana" font-size="24pt" font-style="bold">
+                    - <expression value="pageNumber"/>/<expression value="pageCount" pass2="true"/> -
+                </wrapper>
+            </block>
+        </cell>
+    </page-footer>
+    <iterate collection="items" id="elm" index-id="ix">
+        <call name="processItem">
+            <argument name="item" value="elm"/>
+            <argument name="position" value="ix"/>
+        </call>
+        <iterate collection="elm.subItems" id="sub" index-id="jx">
+            <call name="processItem">
+                <argument name="item" value="sub"/>
+                <argument name="position" value="jx"/>
+            </call>
+        </iterate>
+    </iterate>
+    <iterate collection="items" id="elm" index-id="ix">
+        <choose>
+            <when test="ix%2 == 0">
+                <band>
+                    <row />
+                    <column />
+                    <cell>
+                        <block align="right">
+                            <wrapper font-family="Verdana" font-size="16pt" font-style="bold">
+                                <expression value="elm.label"/>: 
+                                <expression value='numberFormat.format(elm.quantity*elm.price*(1+elm.vat))' />
+                            </wrapper>
+                        </block>
+                    </cell>
+                </band>
+                
+            </when>
+            <otherwise>
+                <band>
+                    <row />
+                    <column />
+                    <cell background="pink">
+                        <block align="right">
+                            <wrapper font-family="Verdana" font-size="16pt" font-style="bold">
+                                <expression value="elm.label"/>: 
+                                <expression value='numberFormat.format(elm.quantity*elm.price*(1+elm.vat))' />
+                            </wrapper>
+                        </block>
+                    </cell>
+                </band>
+            </otherwise>
+        </choose>
+    </iterate>
+</report>
