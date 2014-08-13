@@ -1,13 +1,9 @@
 package org.librebiz.pureport.context;
 
-import java.util.logging.Logger;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 public class ReportContext {
-    private static final Logger LOG
-            = Logger.getLogger(ImageAttribute.class.getName());
-
     private final Context context;
     private Scriptable scope;
     private int scopeLevel = 0;
@@ -44,7 +40,6 @@ public class ReportContext {
     }
 
     public <T> T evaluate(String expr, Class<T> type) {
-        LOG.fine("Evaluate " + expr);
         Object result = context.evaluateString(scope, expr, "<cmd>", 1, null);
         result = Context.jsToJava(result, type);
         return type.cast(result);
