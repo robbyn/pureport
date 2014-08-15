@@ -14,7 +14,7 @@ import org.librebiz.pureport.run.PdfGenerator;
 import org.librebiz.pureport.ui.PreviewDialog;
 
 public class Test4 {
-    private static Random random = new Random();
+    private static final Random random = new Random();
 
     public static void main(String args[]) {
         EventQueue.invokeLater(new Runnable() {
