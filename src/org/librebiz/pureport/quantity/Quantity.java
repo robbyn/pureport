@@ -62,6 +62,7 @@ public class Quantity implements Comparable<Quantity>, Serializable {
         return compareTo((Quantity)other) == 0;
     }
 
+    @Override
     public int compareTo(Quantity other) {
         if (other == null) {
             return 1;

@@ -5,8 +5,10 @@ import java.util.List;
 
 public class MacroCall implements Section {
     private String name;
-    private List<ActualArgument> arguments = new ArrayList<ActualArgument>();
+    private final List<ActualArgument> arguments
+            = new ArrayList<ActualArgument>();
 
+    @Override
     public void accept(SectionVisitor visitor) {
         visitor.processCall(this);
     }

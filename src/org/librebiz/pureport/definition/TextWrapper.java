@@ -9,7 +9,7 @@ import org.librebiz.pureport.context.ReportContext;
 import org.librebiz.pureport.context.TextBuilder;
 
 public class TextWrapper extends TextContainer {
-    private Map attributes = new HashMap();
+    private final Map attributes = new HashMap();
 
     public TextAttribute[] getKeys() {
         return (TextAttribute[])attributes.keySet().toArray(

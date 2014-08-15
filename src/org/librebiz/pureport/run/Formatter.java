@@ -24,19 +24,19 @@ import org.librebiz.pureport.definition.When;
 import org.librebiz.pureport.quantity.Unit;
 
 public class Formatter {
-    private Report report;
-    private ReportContext context;
+    private final Report report;
+    private final ReportContext context;
     private List<Forward> fwds;
-    private FontRenderContext frc;
+    private final FontRenderContext frc;
     private double top;
     private double height;
     private double width;
     private double y;
     private BandInstance header;
     private BandInstance footer;
-    private List bands = new ArrayList();
+    private final List bands = new ArrayList();
     private PageFormat format;
-    private PageStore pageStore;
+    private final PageStore pageStore;
 
     public Formatter(Report report, ReportContext context,
             FontRenderContext frc, PageStore pageStore) {

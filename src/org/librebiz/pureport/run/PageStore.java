@@ -21,7 +21,7 @@ public class PageStore {
 
     private File pageFile;
     private RandomAccessFile file;
-    private List<Long> pagePositions = new ArrayList<Long>();
+    private final List<Long> pagePositions = new ArrayList<Long>();
     private boolean delete;
 
     public PageStore() {

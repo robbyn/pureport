@@ -6,7 +6,7 @@ import org.librebiz.pureport.context.ReportContext;
 import org.librebiz.pureport.context.TextBuilder;
 
 public class Block extends Box {
-    private TextWrapper content = new TextWrapper();
+    private final TextWrapper content = new TextWrapper();
 
     public Block() {
     }

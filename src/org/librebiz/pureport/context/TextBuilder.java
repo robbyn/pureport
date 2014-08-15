@@ -15,8 +15,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TextBuilder implements Serializable {
+    private static final Logger LOG
+            = Logger.getLogger(TextBuilder.class.getName());
+
     public static final int ALIGN_CENTER = 0;
     public static final int ALIGN_LEFT = 1;
     public static final int ALIGN_RIGHT = 2;
@@ -295,6 +300,7 @@ public class TextBuilder implements Serializable {
             return ix;
         }
 
+        @Override
         public Map<Attribute,Object> getAttributes() {
             Map<Attribute,Object> attrs = getAttrs();
             Object attr = attrs.get(TextAttribute.CHAR_REPLACEMENT);
@@ -395,7 +401,13 @@ public class TextBuilder implements Serializable {
 
         @Override
         public Object clone() {
-            return new TextBuilderIterator(index);
+            try {
+                return super.clone();
+            } catch (CloneNotSupportedException ex) {
+                LOG.log(Level.SEVERE, null, ex);
+                throw new RuntimeException(ex.getMessage());
+            }
         }
+
     }
 }

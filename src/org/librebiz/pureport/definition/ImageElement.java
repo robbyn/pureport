@@ -25,12 +25,12 @@ public class ImageElement implements TextElement {
     public static final int CENTER_BASELINE  = GraphicAttribute.CENTER_BASELINE;
     public static final int ROMAN_BASELINE   = GraphicAttribute.ROMAN_BASELINE;
 
-    private String expression;
-    private int alignment;
-    private Quantity width;
-    private Quantity height;
-    private Quantity originX;
-    private Quantity originY;
+    private final String expression;
+    private final int alignment;
+    private final Quantity width;
+    private final Quantity height;
+    private final Quantity originX;
+    private final Quantity originY;
 
     public ImageElement(String expression, int alignment,
             Quantity width, Quantity height, 
@@ -51,6 +51,7 @@ public class ImageElement implements TextElement {
         return alignment;
     }
 
+    @Override
     public void render(ReportContext context, TextBuilder builder,
             List<Forward> fwds) {
         Object value = context.evaluate(expression, Object.class);

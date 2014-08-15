@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MacroDefinition extends SectionContainer {
-    private List<String> arguments = new ArrayList<String>();
+    private final List<String> arguments = new ArrayList<String>();
 
     public String[] getArguments() {
         return arguments.toArray(new String[arguments.size()]);

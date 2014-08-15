@@ -12,11 +12,11 @@ import org.librebiz.pureport.definition.Row;
 import org.librebiz.pureport.quantity.Unit;
 
 public class BandInstance implements Serializable {
-    private Band band;
-    private CellInstance cells[];
-    private double rowStart[];
+    private final Band band;
+    private final CellInstance cells[];
+    private final double rowStart[];
     private double height;
-    private double columnStart[];
+    private final double columnStart[];
 
     public BandInstance(Band band) {
         this.band = band;

@@ -63,7 +63,7 @@ public class ReportReader extends DefaultHandler {
     private int column;
     private Cell cell;
     private TextContainer container;
-    private List containerStack = new LinkedList();
+    private final List containerStack = new LinkedList();
     private int imageAlignment;
     private Quantity imageOriginX;
     private Quantity imageOriginY;
@@ -425,7 +425,7 @@ public class ReportReader extends DefaultHandler {
         Quantity q = toQuantity(attrs.getValue("font-size"));
         if (q != null) {
             float size = (float)q.getValue(Unit.PT);
-            at.setAttribute(TextAttribute.SIZE, new Float(size));
+            at.setAttribute(TextAttribute.SIZE, size);
         }
         Color col = toColor(attrs.getValue("foreground"));
         if (col != null) {
@@ -659,8 +659,8 @@ public class ReportReader extends DefaultHandler {
             container.add(new TextString(s));
         }
         s = attrs.getValue("alignment");
-        Integer a = (Integer)IMAGE_ALIGNMENT_MAP.get(s);
-        imageAlignment = a == null ? ImageElement.TOP_ALIGNMENT : a.intValue();
+        Integer a = IMAGE_ALIGNMENT_MAP.get(s);
+        imageAlignment = a == null ? ImageElement.TOP_ALIGNMENT : a;
         imageWidth = toQuantity(attrs.getValue("width"));
         imageHeight = toQuantity(attrs.getValue("height"));
         imageOriginX = toQuantity(attrs.getValue("origin-x"), Quantity.ZERO);

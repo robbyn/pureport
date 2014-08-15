@@ -11,7 +11,7 @@ public class Report extends SectionContainer {
     private Band pageFooter;
     private String before;
     private String after;
-    private Map<String,MacroDefinition> macros
+    private final Map<String,MacroDefinition> macros
             = new HashMap<String,MacroDefinition>();
 
     public Report() {

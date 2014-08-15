@@ -19,10 +19,12 @@ public class TileInstance extends BoxInstance {
         return (TileExpression)box;
     }
 
+    @Override
     public void evaluate(ReportContext context, List<Forward> fwds) {
         tile = context.evaluate(getTileExpr().getExpression(), Tile.class);
     }
 
+    @Override
     protected double formatContent(FontRenderContext frc,
             double width, double height) {
         if (tile == null) {
@@ -32,6 +34,7 @@ public class TileInstance extends BoxInstance {
         }
     }
 
+    @Override
     protected void drawContent(Graphics2D g, double x, double y,
             double w, double h) {
         if (tile != null) {

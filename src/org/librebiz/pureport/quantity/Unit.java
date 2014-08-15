@@ -7,7 +7,7 @@ import java.util.Map;
 public class Unit implements Serializable {
     public static final Unit DEFAULT_UNIT;
 
-    private static Map<String,Unit> UNIT_MAP = new HashMap<String,Unit>();
+    private static final Map<String,Unit> UNIT_MAP = new HashMap<String,Unit>();
 
     public static final Unit CM = create(0, "cm");
     public static final Unit MM = create(1, "mm");
@@ -37,8 +37,8 @@ public class Unit implements Serializable {
             get(System.getProperty("org.freebiz.pureport.default-unit", "cm"));
     }
 
-    private int id;
-    private String name;
+    private final int id;
+    private final String name;
 
     private static Unit create(int id, String name) {
         Unit result = new Unit(id, name);

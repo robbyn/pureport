@@ -1,12 +1,13 @@
 package org.librebiz.pureport.definition;
 
 public class Script implements Section {
-    private String code;
+    private final String code;
 
     public Script(String code) {
         this.code = code;
     }
 
+    @Override
     public void accept(SectionVisitor visitor) {
         visitor.processScript(this);
     }

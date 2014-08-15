@@ -36,6 +36,7 @@ public class CellInstance extends BoxInstance {
         return getCell().getColumnSpan();
     }
 
+    @Override
     public void evaluate(ReportContext context, List<Forward> fwds) {
         List list = new ArrayList();
         for (int i = 0; i < getCell().getBoxCount(); ++i) {
@@ -53,6 +54,7 @@ public class CellInstance extends BoxInstance {
         boxes = (BoxInstance[])list.toArray(new BoxInstance[list.size()]);
     }
 
+    @Override
     public double formatContent(FontRenderContext frc, double width,
             double maxHeight) {
         double height = 0;
@@ -64,6 +66,7 @@ public class CellInstance extends BoxInstance {
         return height;
     }
 
+    @Override
     public void drawContent(Graphics2D g, double x, double y, double w, double h) {
         if (getCell().getVerticalAlignment() == Cell.ALIGN_BOTTOM) {
             y += h-getHeight();

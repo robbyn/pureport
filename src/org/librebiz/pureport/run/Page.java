@@ -6,10 +6,10 @@ import org.librebiz.pureport.context.Forward;
 import org.librebiz.pureport.context.ReportContext;
 
 public class Page implements Serializable {
-    private BandInstance header;
-    private BandInstance footer;
-    private BandInstance content[];
-    private Forward forwards[];
+    private final BandInstance header;
+    private final BandInstance footer;
+    private final BandInstance content[];
+    private final Forward forwards[];
 
     public Page(BandInstance header, BandInstance footer,
             BandInstance content[], Forward forwards[]) {

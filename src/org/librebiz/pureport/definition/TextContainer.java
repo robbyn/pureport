@@ -8,7 +8,7 @@ import org.librebiz.pureport.context.ReportContext;
 import org.librebiz.pureport.context.TextBuilder;
 
 public class TextContainer implements TextElement {
-    private List elements = new ArrayList();
+    private final List elements = new ArrayList();
 
     public int getCount() {
         return elements.size();

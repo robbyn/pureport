@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SectionContainer {
-    private List<Section> content = new ArrayList<Section>();
+    private final List<Section> content = new ArrayList<Section>();
 
     public Section[] getContent() {
         return content.toArray(new Section[content.size()]);

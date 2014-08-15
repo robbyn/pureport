@@ -6,7 +6,7 @@ import org.librebiz.pureport.context.ReportContext;
 import org.librebiz.pureport.context.TextBuilder;
 
 public class TextString implements TextElement {
-    private String content;
+    private final String content;
 
     public TextString(String content) {
         this.content = content;

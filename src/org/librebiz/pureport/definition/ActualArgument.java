@@ -1,8 +1,8 @@
 package org.librebiz.pureport.definition;
 
 public class ActualArgument {
-    private String name;
-    private String value;
+    private final String name;
+    private final String value;
 
     public ActualArgument(String name, String value) {
         this.name = name;

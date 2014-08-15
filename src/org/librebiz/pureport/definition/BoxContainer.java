@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BoxContainer extends Box {
-    private List<Box> boxes = new ArrayList<Box>();
+    private final List<Box> boxes = new ArrayList<Box>();
 
     public int getBoxCount() {
         return boxes.size();

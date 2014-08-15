@@ -83,7 +83,7 @@ public class ImageAttribute implements Serializable {
 
     public GraphicAttribute toGraphicAttribute() {
         return new GraphicAttribute(alignment) {
-            private BufferedImage image = getImage();
+            private final BufferedImage image = getImage();
 
             @Override
             public float getAscent() {

@@ -4,15 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Band extends Box implements Section {
-    private List<Row> rows = new ArrayList<Row>();
-    private List<Column> columns = new ArrayList<Column>();
-    private List<Cell> cells = new ArrayList<Cell>();
+    private final List<Row> rows = new ArrayList<Row>();
+    private final List<Column> columns = new ArrayList<Column>();
+    private final List<Cell> cells = new ArrayList<Cell>();
     private String before;
     private String after;
 
     public Band() {
     }
 
+    @Override
     public void accept(SectionVisitor visitor) {
         visitor.processBand(this);
     }

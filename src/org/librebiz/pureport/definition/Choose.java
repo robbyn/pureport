@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Choose implements Section {
-    private List<When> branches = new ArrayList<When>();
+    private final List<When> branches = new ArrayList<When>();
 
     public When[] getBranches() {
         return branches.toArray(new When[branches.size()]);
@@ -14,6 +14,7 @@ public class Choose implements Section {
         branches.add(branch);
     }
 
+    @Override
     public void accept(SectionVisitor visitor) {
         visitor.processChoose(this);
     }

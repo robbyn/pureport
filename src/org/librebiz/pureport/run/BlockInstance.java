@@ -19,16 +19,19 @@ public class BlockInstance extends BoxInstance {
         return (Block)box;
     }
 
+    @Override
     public void evaluate(ReportContext context, List<Forward> fwds) {
         content = new TextBuilder();
         getBlock().render(context, content, fwds);
     }
 
+    @Override
     public double formatContent(FontRenderContext frc, double width, double height) {
         content.format(frc, width);
         return content.getHeight();
     }
 
+    @Override
     protected void drawContent(Graphics2D g, double x, double y, double w, double h) {
         content.draw(g, x, y, w, getBlock().getAlignment());
     }

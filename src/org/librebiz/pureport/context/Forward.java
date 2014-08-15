@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.Map;
 
 public class Forward implements Serializable {
-    private TextBuilder builder;
-    private String expr;
-    private int index;
+    private final TextBuilder builder;
+    private final String expr;
+    private final int index;
 
     public Forward(TextBuilder builder, int index, String expr) {
         this.builder = builder;

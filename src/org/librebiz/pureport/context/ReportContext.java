@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import javax.script.SimpleBindings;
 
 public class ReportContext {
@@ -37,12 +38,7 @@ public class ReportContext {
     }
 
     public boolean evaluateCondition(String expr) {
-        try {
-            return evaluate(expr, Boolean.class);
-        } catch (Exception ex) {
-            LOG.log(Level.SEVERE, null, ex);
-            throw new RuntimeException(ex.getMessage());
-        }
+        return evaluate(expr, Boolean.class);
     }
 
     public <T> T evaluate(String expr, Class<T> type) {
@@ -66,7 +62,10 @@ public class ReportContext {
                 }
             }
             return type.cast(result);
-        } catch (Exception ex) {
+        } catch (RuntimeException e) {
+            LOG.log(Level.SEVERE, null, e);
+            throw e;
+        } catch (ScriptException ex) {
             LOG.log(Level.SEVERE, null, ex);
             throw new RuntimeException(ex.getMessage());
         }
@@ -75,7 +74,10 @@ public class ReportContext {
     public void execute(String statement) {
         try {
             engine.eval(statement);
-        } catch (Exception ex) {
+        } catch (RuntimeException e) {
+            LOG.log(Level.SEVERE, null, e);
+            throw e;
+        } catch (ScriptException ex) {
             LOG.log(Level.SEVERE, null, ex);
             throw new RuntimeException(ex.getMessage());
         }
