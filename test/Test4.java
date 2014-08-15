@@ -28,7 +28,7 @@ public class Test4 {
                                 random.nextInt(10)));
                     }
                     Report report = ReportReader.load(Test4.class.getResource("test4.xml"));
-                    ReportContext context = new ReportContext();
+                    ReportContext context = new ReportContext("javascript");
                     context.define("items", items);
                     PdfGenerator.generatePdf(context, report, new File("out4.pdf"));
                     PageStore pageStore = new PageStore();

@@ -1,51 +1,73 @@
 package org.librebiz.pureport.context;
 
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Scriptable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.script.ScriptContext;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.SimpleBindings;
 
 public class ReportContext {
-    private final Context context;
-    private Scriptable scope;
-    private int scopeLevel = 0;
+    private static final Logger LOG
+            = Logger.getLogger(ReportContext.class.getName());
+    private final ScriptContext scontext = new MyScriptContext();
+    private final ScriptEngine engine;
+    private int scopeLevel = ScriptContext.ENGINE_SCOPE;
 
-    public ReportContext() {
-        context = Context.enter();
-        scope = context.initStandardObjects();
+    public ReportContext(String type) {
+        ScriptEngineManager manager = new ScriptEngineManager();
+        engine = manager.getEngineByName(type);
+        engine.setContext(scontext);
     }
 
     public void close() {
-        Context.exit();
+        // nothing
     }
 
     public void openScope() {
-        Scriptable newScope = context.newObject(scope);
-        newScope.setParentScope(scope);
-        scope = newScope;
-        ++scopeLevel;
+        scontext.setBindings(new SimpleBindings(), --scopeLevel);
     }
 
     public void closeScope() {
-        --scopeLevel;
-        scope = scope.getParentScope();
+        scontext.setBindings(new SimpleBindings(), scopeLevel++);
     }
 
     public void define(String name, Object value) {
-        Object jsObject = Context.javaToJS(value, scope);
-        scope.put(name, scope, jsObject);
+        scontext.setAttribute(name, value, scopeLevel);
     }
 
     public boolean evaluateCondition(String expr) {
-        Object result = context.evaluateString(scope, expr, "<cmd>", 1, null);
-        return Context.toBoolean(result);
+        try {
+            return (Boolean)engine.eval("!!(" + expr + ")");
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            throw new RuntimeException(ex.getMessage());
+        }
     }
 
     public <T> T evaluate(String expr, Class<T> type) {
-        Object result = context.evaluateString(scope, expr, "<cmd>", 1, null);
-        result = Context.jsToJava(result, type);
-        return type.cast(result);
+        try {
+            Object result = engine.eval(expr);
+            if (type == String.class) {
+                if (result == null) {
+                    result = "";
+                } else {
+                    result = result.toString();
+                }
+            }
+            return type.cast(result);
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            throw new RuntimeException(ex.getMessage());
+        }
     }
 
     public void execute(String statement) {
-        context.evaluateString(scope, statement, "<cmd>", 1, null);
+        try {
+            engine.eval(statement);
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            throw new RuntimeException(ex.getMessage());
+        }
     }
 }
