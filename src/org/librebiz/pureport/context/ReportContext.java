@@ -38,7 +38,7 @@ public class ReportContext {
 
     public boolean evaluateCondition(String expr) {
         try {
-            return (Boolean)engine.eval("!!(" + expr + ")");
+            return evaluate(expr, Boolean.class);
         } catch (Exception ex) {
             LOG.log(Level.SEVERE, null, ex);
             throw new RuntimeException(ex.getMessage());
@@ -53,6 +53,16 @@ public class ReportContext {
                     result = "";
                 } else {
                     result = result.toString();
+                }
+            } else if (type == Boolean.class || type == boolean.class) {
+                if (result == null) {
+                    result = Boolean.FALSE;
+                } else if (result instanceof Boolean) {
+                    // nothing
+                } else if (result instanceof Number) {
+                    result = ((Number)result).doubleValue() != 0.0;
+                } else {
+                    result = Boolean.TRUE;
                 }
             }
             return type.cast(result);
