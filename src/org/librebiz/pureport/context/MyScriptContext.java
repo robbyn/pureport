@@ -7,11 +7,16 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.script.Bindings;
 import javax.script.ScriptContext;
 import javax.script.SimpleBindings;
 
 public class MyScriptContext implements ScriptContext {
+    private static final Logger LOG
+            = Logger.getLogger(MyScriptContext.class.getName());
+
     private static final List<Integer> SCOPES;
     private final Bindings[] stack = new Bindings[201];
     private Reader reader;
@@ -50,8 +55,15 @@ public class MyScriptContext implements ScriptContext {
 
     @Override
     public Object getAttribute(String name, int scope) {
-        Bindings bindings = stack[scope];
-        return bindings == null ? null : bindings.get(name);
+        for (int i = scope; i < stack.length; ++i) {
+            Bindings bindings = stack[i];
+            if (bindings != null && bindings.containsKey(name)) {
+                LOG.log(Level.FINE, "Attribute {0} found in level {1}",
+                        new Object[]{name, i});
+                return bindings.get(name);
+            }
+        }
+        return null;
     }
 
     @Override
@@ -65,13 +77,7 @@ public class MyScriptContext implements ScriptContext {
 
     @Override
     public Object getAttribute(String name) {
-        for (int i = minScope; i < stack.length; ++i) {
-            Bindings bindings = stack[i];
-            if (bindings != null && bindings.containsKey(name)) {
-                return bindings.get(name);
-            }
-        }
-        return null;
+        return getAttribute(name, minScope);
     }
 
     @Override
@@ -79,6 +85,8 @@ public class MyScriptContext implements ScriptContext {
         for (int i = minScope; i < stack.length; ++i) {
             Bindings bindings = stack[i];
             if (bindings != null && bindings.containsKey(name)) {
+                LOG.log(Level.FINE, "Attribute {0} found in scope {1}",
+                        new Object[]{name, i});
                 return i;
             }
         }

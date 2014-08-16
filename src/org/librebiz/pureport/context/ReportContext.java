@@ -18,23 +18,35 @@ public class ReportContext {
     public ReportContext(String type) {
         ScriptEngineManager manager = new ScriptEngineManager();
         engine = manager.getEngineByName(type);
-        engine.setContext(scontext);
     }
 
     public void close() {
         // nothing
     }
 
-    public void openScope() {
+    public int getLevel() {
+        return scopeLevel;
+    }
+
+    public int openScope() {
         scontext.setBindings(new SimpleBindings(), --scopeLevel);
+        LOG.log(Level.FINE, "openScope: {0}", scopeLevel);
+        return scopeLevel;
     }
 
     public void closeScope() {
-        scontext.setBindings(new SimpleBindings(), scopeLevel++);
+        LOG.log(Level.FINE, "closeScope: {0}", scopeLevel);
+        scontext.setBindings(null, scopeLevel++);
     }
 
     public void define(String name, Object value) {
-        scontext.setAttribute(name, value, scopeLevel);
+        define(name, value, scopeLevel);
+    }
+
+    public void define(String name, Object value, int level) {
+        LOG.log(Level.FINE, "define({0}:{2}): {1}",
+                new Object[] {name, convert(value, String.class), level});
+        scontext.setAttribute(name, value, level);
     }
 
     public boolean evaluateCondition(String expr) {
@@ -43,9 +55,9 @@ public class ReportContext {
 
     public <T> T evaluate(String expr, Class<T> type) {
         try {
-            Object result = engine.eval(expr);
-            LOG.log(Level.FINE, "evaluate({0}): {1}",
-                    new Object[] {expr, convert(result, String.class)});
+            Object result = engine.eval(expr, scontext);
+            LOG.log(Level.FINE, "evaluate({0}:{2}): {1}",
+                    new Object[] {expr, convert(result, String.class), scopeLevel});
             return convert(result, type);
         } catch (RuntimeException e) {
             LOG.log(Level.SEVERE, null, e);
@@ -58,7 +70,7 @@ public class ReportContext {
 
     public void execute(String statement) {
         try {
-            engine.eval(statement);
+            engine.eval(statement, scontext);
         } catch (RuntimeException e) {
             LOG.log(Level.SEVERE, null, e);
             throw e;

@@ -37,6 +37,7 @@ public class Formatter {
     private final List bands = new ArrayList();
     private PageFormat format;
     private final PageStore pageStore;
+    private int topLevel;
 
     public Formatter(Report report, ReportContext context,
             FontRenderContext frc, PageStore pageStore) {
@@ -49,7 +50,7 @@ public class Formatter {
     public void format(PageFormat fmt) {
         format = fmt;
         pageStore.clear();
-        context.openScope();
+        topLevel = context.openScope();
         try {
             computeMargins();
             if (report.getBefore() != null) {
@@ -97,13 +98,16 @@ public class Formatter {
                     String indexId = iter.getIndexId();
                     for (Object elem: col) {
                         context.openScope();
-                        context.define(id, elem);
-                        if (indexId != null) {
-                            context.define(indexId, index);
-                            ++index;
+                        try {
+                            context.define(id, elem);
+                            if (indexId != null) {
+                                context.define(indexId, index);
+                                ++index;
+                            }
+                            processContent(iter);
+                        } finally {
+                            context.closeScope();
                         }
-                        processContent(iter);
-                        context.closeScope();
                     }
                 }
 
@@ -125,12 +129,15 @@ public class Formatter {
                                 + call.getName());
                     }
                     context.openScope();
-                    for (ActualArgument arg: call.getArguments()) {
-                        context.define(arg.getName(),
-                                context.evaluate(arg.getValue(), Object.class));
+                    try {
+                        for (ActualArgument arg: call.getArguments()) {
+                            context.define(arg.getName(),
+                                    context.evaluate(arg.getValue(), Object.class));
+                        }
+                        processContent(def);
+                    } finally {
+                        context.closeScope();
                     }
-                    processContent(def);
-                    context.closeScope();
                 }
 
                 public void processScript(Script script) {
@@ -167,7 +174,7 @@ public class Formatter {
 
     private void startPage() {
         fwds = new ArrayList<Forward>();
-        context.define("pageNumber", pageStore.getPageCount()+1);
+        context.define("pageNumber", pageStore.getPageCount()+1, topLevel);
         header = null;
         y = top;
         if (report.getPageHeader() != null) {
