@@ -18,6 +18,7 @@ public class Test4 {
 
     public static void main(String args[]) {
         EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 try {
                     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -30,7 +31,7 @@ public class Test4 {
                     Report report = ReportReader.load(Test4.class.getResource("test4.xml"));
                     ReportContext context = new ReportContext("javascript");
                     context.define("items", items);
-                    PdfGenerator.generatePdf(context, report, new File("out4.pdf"));
+//                    PdfGenerator.generatePdf(context, report, new File("out4.pdf"));
                     PageStore pageStore = new PageStore();
                     FontRenderContext frc = new FontRenderContext(null, true, true);
                     Formatter fmt = new Formatter(report, context, frc, pageStore);
