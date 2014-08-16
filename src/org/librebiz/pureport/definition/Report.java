@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Report extends SectionContainer {
+    private final String scriptEngine;
     private PageLayout pageLayout = new PageLayout();
     private Band reportHeader;
     private Band reportFooter;
@@ -14,7 +15,12 @@ public class Report extends SectionContainer {
     private final Map<String,MacroDefinition> macros
             = new HashMap<String,MacroDefinition>();
 
-    public Report() {
+    public Report(String scriptEngine) {
+        this.scriptEngine = scriptEngine;
+    }
+
+    public String getScriptEngine() {
+        return scriptEngine;
     }
 
     public PageLayout getPageLayout() {

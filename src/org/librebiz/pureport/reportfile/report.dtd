@@ -2,7 +2,10 @@
 <!ELEMENT report (page-layout, (script|macro)*, before?, after?,
         report-header?, report-footer?, page-header?, page-footer?,
         (band|script|iterate|choose|call)*)>
-<!ATTLIST report default-units (cm|mm|in|pt|pc|px) #IMPLIED>
+<!ATTLIST report
+    default-units (cm|mm|in|pt|pc|px) #IMPLIED
+    script-engine CDATA #IMPLIED
+>
 
 <!ELEMENT page-layout EMPTY>
 <!ATTLIST page-layout

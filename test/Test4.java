@@ -1,6 +1,5 @@
 import java.awt.EventQueue;
 import java.awt.font.FontRenderContext;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -10,7 +9,6 @@ import org.librebiz.pureport.definition.Report;
 import org.librebiz.pureport.reportfile.ReportReader;
 import org.librebiz.pureport.run.Formatter;
 import org.librebiz.pureport.run.PageStore;
-import org.librebiz.pureport.run.PdfGenerator;
 import org.librebiz.pureport.ui.PreviewDialog;
 
 public class Test4 {
@@ -28,8 +26,10 @@ public class Test4 {
                                 random.nextDouble(), random.nextDouble(),
                                 random.nextInt(10)));
                     }
-                    Report report = ReportReader.load(Test4.class.getResource("test4.xml"));
-                    ReportContext context = new ReportContext("javascript");
+                    Report report = ReportReader.load(
+                            Test4.class.getResource("test4.xml"));
+                    ReportContext context = new ReportContext(
+                            report.getScriptEngine());
                     context.define("items", items);
 //                    PdfGenerator.generatePdf(context, report, new File("out4.pdf"));
                     PageStore pageStore = new PageStore();

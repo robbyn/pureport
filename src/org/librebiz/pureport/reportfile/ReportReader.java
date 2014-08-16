@@ -52,6 +52,7 @@ public class ReportReader extends DefaultHandler {
     private static final Logger LOG
             = Logger.getLogger(ReportReader.class.getName());
 
+    private static final String DEFAULT_SCRIPT_ENGINE = "text/javascript";
     private static final Map<String,Color> COLOR_MAP
             = new HashMap<String,Color>();
     private static final Map<String,Integer> IMAGE_ALIGNMENT_MAP
@@ -74,7 +75,7 @@ public class ReportReader extends DefaultHandler {
     private Box box;
     private TextHandler textHandler;
     private SectionContainer sectionContainer;
-    private List<SectionContainer> sectionContainerStack
+    private final List<SectionContainer> sectionContainerStack
             = new ArrayList<SectionContainer>();
     private MacroCall call;
     private String argName;
@@ -438,8 +439,9 @@ public class ReportReader extends DefaultHandler {
     }
 
     private void startReport(Attributes attrs) {
-        report = new Report();
-        String s = attrs.getValue("default-units");
+        String s = attrs.getValue("script-engine");
+        report = new Report(s == null ? DEFAULT_SCRIPT_ENGINE : s);
+        s = attrs.getValue("default-units");
         if (s != null) {
             Unit u = Unit.get(s);
             if (u != null) {

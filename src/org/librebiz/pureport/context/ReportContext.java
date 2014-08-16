@@ -16,8 +16,7 @@ public class ReportContext {
     private int scopeLevel = ScriptContext.ENGINE_SCOPE;
 
     public ReportContext(String type) {
-        ScriptEngineManager manager = new ScriptEngineManager();
-        engine = manager.getEngineByName(type);
+        engine = getEngine(type);
     }
 
     public void close() {
@@ -99,5 +98,18 @@ public class ReportContext {
             }
         }
         return type.cast(result);
+    }
+
+    private static ScriptEngine getEngine(String type) {
+        ScriptEngineManager manager = new ScriptEngineManager();
+        ScriptEngine eng = manager.getEngineByName(type);
+        if (eng == null) {
+            eng = manager.getEngineByMimeType(type);
+            if (eng == null) {
+                throw new IllegalArgumentException(
+                        "Script engine not found " + type);
+            }
+        }
+        return eng;
     }
 }
