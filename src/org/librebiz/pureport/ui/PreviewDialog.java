@@ -21,9 +21,9 @@ import org.librebiz.pureport.run.PageStore;
 
 
 public class PreviewDialog extends JDialog {
-    private Formatter formatter;
-    private PageStore pageStore;
-    private PrinterJob job;
+    private final Formatter formatter;
+    private final PageStore pageStore;
+    private final PrinterJob job;
 
     public PreviewDialog(JFrame parent, Formatter formatter,
             PageStore pageStore) {
@@ -49,12 +49,9 @@ public class PreviewDialog extends JDialog {
     }
 
     private void fillPageCombo() {
-        try {
-            pageCombo.removeAllItems();
-            for (int i = 1; i <= pageStore.getPageCount(); ++i) {
-                pageCombo.addItem(i);
-            }
-        } finally {
+        pageCombo.removeAllItems();
+        for (int i = 1; i <= pageStore.getPageCount(); ++i) {
+            pageCombo.addItem(i);
         }
         if (pageCombo.getItemCount() > 0) {
             pageCombo.setSelectedIndex(0);
@@ -141,6 +138,7 @@ public class PreviewDialog extends JDialog {
     private void printActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printActionPerformed
         try {
             job.setPrintable(new Printable() {
+                @Override
                 public int print(Graphics g, PageFormat format,
                         int pageIndex) throws PrinterException {
                     if (pageIndex >= pageStore.getPageCount()) {
@@ -174,7 +172,6 @@ public class PreviewDialog extends JDialog {
             page.resolveForwards(formatter.getContext());
             pagePreview.setPage(page);
             pagePreview.setPageFormat(formatter.getPageFormat());
-            pagePreview.repaint();
         }
     }//GEN-LAST:event_pageComboActionPerformed
 

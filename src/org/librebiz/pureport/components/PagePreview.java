@@ -57,6 +57,7 @@ public class PagePreview extends JComponent {
 
     public void setPageLayout(PageLayout newValue) {
         pageLayout = newValue;
+        repaint();
     }
 
     public Page getPage() {
@@ -65,6 +66,7 @@ public class PagePreview extends JComponent {
 
     public void setPage(Page newValue) {
         page = newValue;
+        repaint();
     }
 
     public PageFormat getPageFormat() {
@@ -73,5 +75,6 @@ public class PagePreview extends JComponent {
 
     public void setPageFormat(PageFormat newValue) {
         format = newValue;
+        repaint();
     }
 }
