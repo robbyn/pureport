@@ -55,6 +55,7 @@
 
         numberFormat = new java.text.DecimalFormat("0.00");
         intFormat = new java.text.DecimalFormat("0");
+        dateFormat = new java.text.SimpleDateFormat("dd/MM/yyyy");
     </before>
     <page-header>
         <row />
@@ -67,7 +68,7 @@
             </block>
             <block border="2pt solid black" align="center" left-margin="0.5cm" right-margin="0.5cm" top-margin="0.5cm" bottom-margin="0.5cm" background="cyan">
                 <wrapper font-family="Verdana" font-size="24pt" font-style="bold">
-                    <expression value="new Date()"/>
+                    <expression value="dateFormat.format(new java.util.Date())"/>
                 </wrapper>
             </block>
             <block align="justify">
