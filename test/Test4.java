@@ -1,5 +1,6 @@
 import java.awt.EventQueue;
 import java.awt.font.FontRenderContext;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -26,10 +27,11 @@ public class Test4 {
                                 random.nextDouble(), random.nextDouble(),
                                 random.nextInt(10)));
                     }
-                    Report report = ReportReader.load(
-                            Test4.class.getResource("test4.xml"));
+                    URL reportUrl = Test4.class.getResource("test4.xml");
+                    Report report = ReportReader.load(reportUrl);
                     ReportContext context = new ReportContext(
                             report.getScriptEngine());
+                    context.define("reportUrl", reportUrl);
                     context.define("items", items);
 //                    PdfGenerator.generatePdf(context, report, new File("out4.pdf"));
                     PageStore pageStore = new PageStore();

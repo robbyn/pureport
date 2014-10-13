@@ -49,7 +49,6 @@
     </macro>
     <before>
         Quantity = Packages.org.librebiz.pureport.quantity.Quantity;
-        ImageIO = Packages.javax.imageio.ImageIO;
         File = Packages.java.io.File;
         URL = Packages.java.net.URL;
 
@@ -63,7 +62,7 @@
         <cell background="yellow">
             <block align="justify">
                 <wrapper font-family="Verdana" font-size="16pt" font-style="bold">
-                    <image value='new URL("file:test/test4.jpg")'/>Pour permettre une migration progressive, le serveur Linux peut être configuré en passerelle entre les réseaux 192.9.200.0 et 192.168.3.0 il prendra l'adresse 192.9.200.254 qui est l'actuelle adresse de la passerelle par défaut, et le routeur pourra prendra son adresse définitive: 192.168.3.1. Les autres postes pourront être migrés progressivement.
+                    <image value='new URL(reportUrl, "test4.jpg")'/>Pour permettre une migration progressive, le serveur Linux peut être configuré en passerelle entre les réseaux 192.9.200.0 et 192.168.3.0 il prendra l'adresse 192.9.200.254 qui est l'actuelle adresse de la passerelle par défaut, et le routeur pourra prendra son adresse définitive: 192.168.3.1. Les autres postes pourront être migrés progressivement.
                 </wrapper>
             </block>
             <block border="2pt solid black" align="center" left-margin="0.5cm" right-margin="0.5cm" top-margin="0.5cm" bottom-margin="0.5cm" background="cyan">
