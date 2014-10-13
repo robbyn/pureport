@@ -103,7 +103,8 @@ public class Quantity implements Comparable<Quantity>, Serializable {
         if (units != null && units.length() > 0) {
             unit = Unit.get(units.toLowerCase());
         }
-        BigDecimal d = new BigDecimal(new BigInteger(mantissa + decs), decs.length());
+        BigDecimal d = new BigDecimal(
+                new BigInteger(mantissa + decs), decs.length());
         return new Quantity(d.doubleValue(), unit);
     }
 

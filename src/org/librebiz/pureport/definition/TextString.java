@@ -16,6 +16,7 @@ public class TextString implements TextElement {
         return content;
     }
 
+    @Override
     public void render(ReportContext context, TextBuilder builder,
             List<Forward> fwds) {
         builder.append(content);

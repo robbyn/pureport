@@ -111,6 +111,7 @@ public class Formatter {
                     }
                 }
 
+                @Override
                 public void processChoose(Choose choose) {
                     for (When branch: choose.getBranches()) {
                         String cond = branch.getCondition();
@@ -122,6 +123,7 @@ public class Formatter {
                     }
                 }
 
+                @Override
                 public void processCall(MacroCall call) {
                     MacroDefinition def = report.getMacro(call.getName());
                     if (def == null) {
@@ -140,6 +142,7 @@ public class Formatter {
                     }
                 }
 
+                @Override
                 public void processScript(Script script) {
                     context.execute(script.getCode());
                 }

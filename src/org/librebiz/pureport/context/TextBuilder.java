@@ -408,6 +408,5 @@ public class TextBuilder implements Serializable {
                 throw new RuntimeException(ex.getMessage());
             }
         }
-
     }
 }

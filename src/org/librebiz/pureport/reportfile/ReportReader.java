@@ -790,7 +790,7 @@ public class ReportReader extends DefaultHandler {
 
     private abstract class TextHandler {
         private TextHandler link;
-        private StringBuffer buf = new StringBuffer();
+        private final StringBuilder buf = new StringBuilder();
 
         void start() {
             link = textHandler;

@@ -9,12 +9,8 @@ import org.librebiz.pureport.context.ReportContext;
 import org.librebiz.pureport.context.TextBuilder;
 
 public class TextWrapper extends TextContainer {
-    private final Map attributes = new HashMap();
-
-    public TextAttribute[] getKeys() {
-        return (TextAttribute[])attributes.keySet().toArray(
-                new TextAttribute[attributes.size()]);
-    }
+    private final Map<TextAttribute,Object> attributes
+            = new HashMap<TextAttribute,Object>();
 
     public Object getAttribute(TextAttribute key) {
         return attributes.get(key);
@@ -31,15 +27,19 @@ public class TextWrapper extends TextContainer {
     @Override
     public void render(ReportContext context, TextBuilder builder,
             List<Forward> fwds) {
-        TextAttribute keys[] = getKeys();
-        Object savedValues[] = new Object[keys.length];
-        for (int i = 0; i < keys.length; ++i) {
-            savedValues[i] = builder.getAttribute(keys[i]);
-            builder.setAttribute(keys[i], attributes.get(keys[i]));
+        Map<TextAttribute,Object> savedAttrs
+                = new HashMap<TextAttribute,Object>();
+        for (Map.Entry<TextAttribute,Object> entry: attributes.entrySet()) {
+            TextAttribute key = entry.getKey();
+            Object value = entry.getValue();
+            savedAttrs.put(key, builder.getAttribute(key));
+            builder.setAttribute(key, value);
         }
         super.render(context, builder, fwds);
-        for (int i = keys.length-1; i >= 0; --i) {
-            builder.setAttribute(keys[i], savedValues[i]);
+        for (Map.Entry<TextAttribute,Object> entry: savedAttrs.entrySet()) {
+            TextAttribute key = entry.getKey();
+            Object value = entry.getValue();
+            builder.setAttribute(key, value);
         }
     }
 }

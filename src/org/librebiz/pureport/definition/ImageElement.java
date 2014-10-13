@@ -79,7 +79,7 @@ public class ImageElement implements TextElement {
     private static URL toURL(Object value) {
         try {
             if (value instanceof String) {
-                value = new URL((String)value);
+                return new URL((String)value);
             }
             if (value instanceof URL) {
                 return (URL)value;

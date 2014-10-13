@@ -26,13 +26,15 @@ public class BlockInstance extends BoxInstance {
     }
 
     @Override
-    public double formatContent(FontRenderContext frc, double width, double height) {
+    public double formatContent(FontRenderContext frc, double width,
+            double height) {
         content.format(frc, width);
         return content.getHeight();
     }
 
     @Override
-    protected void drawContent(Graphics2D g, double x, double y, double w, double h) {
+    protected void drawContent(Graphics2D g, double x, double y, double w,
+            double h) {
         content.draw(g, x, y, w, getBlock().getAlignment());
     }
 }

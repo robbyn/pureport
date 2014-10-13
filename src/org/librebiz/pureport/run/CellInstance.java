@@ -67,7 +67,8 @@ public class CellInstance extends BoxInstance {
     }
 
     @Override
-    public void drawContent(Graphics2D g, double x, double y, double w, double h) {
+    public void drawContent(Graphics2D g, double x, double y,
+            double w, double h) {
         if (getCell().getVerticalAlignment() == Cell.ALIGN_BOTTOM) {
             y += h-getHeight();
         } else if (getCell().getVerticalAlignment() == Cell.ALIGN_CENTER) {
