@@ -167,7 +167,8 @@ public class Box implements Serializable {
         return getTopGap(unit) + getBottomGap(unit);
     }
 
-    private double calculateGap(Quantity margin, StrokeInfo border, Quantity padding, Unit unit) {
+    private double calculateGap(Quantity margin, StrokeInfo border,
+            Quantity padding, Unit unit) {
         double gap = 0;
         if (margin != null) {
             gap += margin.getValue(unit);
