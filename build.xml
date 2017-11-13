@@ -83,8 +83,7 @@
 
     <target name="zip-src">
         <zip destfile="dist/pureport-${pureport-version}-src.zip">
-            <zipfileset dir="." prefix="pureport-${pureport-version}-src"
-                    excludes="build/**,dist/**,nbproject/private/**"/>
+            <zipfileset dir="src"/>
         </zip>
     </target>
 

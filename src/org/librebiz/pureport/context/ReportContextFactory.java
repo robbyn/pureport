@@ -1,6 +1,7 @@
 package org.librebiz.pureport.context;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,8 +19,11 @@ public class ReportContextFactory {
                         = (Class<? extends ReportContext>)Class.forName(name);
                 Constructor<? extends ReportContext> cons =
                         clazz.getConstructor(String.class);
+                return cons.newInstance(type);
             } catch (ClassNotFoundException | NoSuchMethodException
-                    | SecurityException ex) {
+                    | SecurityException | InstantiationException
+                    | IllegalAccessException | IllegalArgumentException
+                    | InvocationTargetException ex) {
                 LOG.log(Level.SEVERE, null, ex);
             }
         }
