@@ -56,7 +56,7 @@ public class BeanShellReportContext implements ReportContext {
     @Override
     public <T> T evaluate(String expr, Class<T> type) {
         try {
-            return type.cast(interpreter.eval(expr));
+            return convert(interpreter.eval(expr), type);
         } catch (EvalError e) {
             throw new EvaluationException(e);
         }
@@ -69,5 +69,26 @@ public class BeanShellReportContext implements ReportContext {
         } catch (EvalError e) {
             throw new EvaluationException(e);
         }
+    }
+
+    public <T> T convert(Object result, Class<T> type) {
+        if (type == String.class) {
+            if (result == null) {
+                result = "";
+            } else {
+                result = result.toString();
+            }
+        } else if (type == Boolean.class || type == boolean.class) {
+            if (result == null) {
+                result = Boolean.FALSE;
+            } else if (result instanceof Boolean) {
+                // nothing
+            } else if (result instanceof Number) {
+                result = ((Number)result).doubleValue() != 0.0;
+            } else {
+                result = Boolean.TRUE;
+            }
+        }
+        return type.cast(result);
     }
 }
