@@ -26,6 +26,8 @@
     arguments CDATA #IMPLIED
 >
 
+<!ELEMENT condition (#PCDATA)>
+
 <!ELEMENT before (#PCDATA)>
 
 <!ELEMENT after (#PCDATA)>
