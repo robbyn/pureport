@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 import javax.swing.UIManager;
 import org.librebiz.pureport.context.ReportContext;
+import org.librebiz.pureport.context.ReportContextFactory;
 import org.librebiz.pureport.definition.Report;
 import org.librebiz.pureport.reportfile.ReportReader;
 import org.librebiz.pureport.run.Formatter;
@@ -29,7 +30,7 @@ public class Test4 {
                     }
                     URL reportUrl = Test4.class.getResource("test4.xml");
                     Report report = ReportReader.load(reportUrl);
-                    ReportContext context = new ReportContext(
+                    ReportContext context = ReportContextFactory.create(
                             report.getScriptEngine());
                     context.define("reportUrl", reportUrl);
                     context.define("items", items);

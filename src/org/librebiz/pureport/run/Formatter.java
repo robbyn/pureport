@@ -24,6 +24,10 @@ import org.librebiz.pureport.definition.When;
 import org.librebiz.pureport.quantity.Unit;
 
 public class Formatter {
+    private final ListenerList listeners = new ListenerList();
+    private final FormatterListener dispatcher
+            = listeners.getNotifier(FormatterListener.class);
+
     private final Report report;
     private final ReportContext context;
     private List<Forward> fwds;
@@ -45,6 +49,14 @@ public class Formatter {
         this.context = context;
         this.frc = frc;
         this.pageStore = pageStore;
+    }
+
+    public void addListener(FormatterListener listener) {
+        this.listeners.addListener(listener);
+    }
+
+    public void removeListener(FormatterListener listener) {
+        this.listeners.removeListener(listener);
     }
 
     public void format(PageFormat fmt) {
@@ -116,7 +128,7 @@ public class Formatter {
                     for (When branch: choose.getBranches()) {
                         String cond = branch.getCondition();
                         if (cond == null
-                                || context.evaluateCondition(cond)) {
+                                || context.evaluate(cond, Boolean.class)) {
                             processContent(branch);
                             break;
                         }
@@ -178,6 +190,7 @@ public class Formatter {
     private void startPage() {
         fwds = new ArrayList<Forward>();
         context.define("pageNumber", pageStore.getPageCount()+1, topLevel);
+        dispatcher.startPage(this);
         header = null;
         y = top;
         if (report.getPageHeader() != null) {
@@ -198,6 +211,7 @@ public class Formatter {
             footer.evaluate(context, fwds);
             footer.format(frc, width, height+top-y);
         }
+        dispatcher.endPage(this);
         BandInstance content[] = (BandInstance[])bands.toArray(
                 new BandInstance[bands.size()]);
         Page page = new Page(header, footer, content, fwds.toArray(new Forward[fwds.size()]));
@@ -208,7 +222,7 @@ public class Formatter {
         if (band != null) {
             boolean printBand = true;
             if (band.getCondition() != null) {
-                printBand = context.evaluateCondition(band.getCondition());
+                printBand = context.evaluate(band.getCondition(), Boolean.class);
             }
             if (printBand) {
                 BandInstance bi = new BandInstance(band);

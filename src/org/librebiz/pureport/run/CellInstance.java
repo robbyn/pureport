@@ -43,7 +43,7 @@ public class CellInstance extends BoxInstance {
             Box bx = getCell().getBox(i);
             boolean printBox = true;
             if (bx.getCondition() != null) {
-                printBox = context.evaluateCondition(bx.getCondition());
+                printBox = context.evaluate(bx.getCondition(), Boolean.class);
             }
             if (printBox) {
                 BoxInstance bi = BoxInstance.getInstance(bx);

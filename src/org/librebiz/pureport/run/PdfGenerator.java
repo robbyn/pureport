@@ -22,16 +22,23 @@ import org.librebiz.pureport.quantity.Unit;
 public class PdfGenerator {
     public static void generatePdf(ReportContext context, Report report,
             File file) throws IOException {
-        OutputStream out = new FileOutputStream(file);
-        try {
-            generatePdf(context, report, out);
-        } finally {
-            out.close();
+        generatePdf(context, report, file, null);
+    }
+
+    public static void generatePdf(ReportContext context, Report report,
+            File file, FormatterListener listener) throws IOException {
+        try (OutputStream out = new FileOutputStream(file)) {
+            generatePdf(context, report, out, listener);
         }
     }
 
     public static void generatePdf(ReportContext context, Report report,
             OutputStream out) throws IOException {
+        generatePdf(context, report, out, null);
+    }
+
+    public static void generatePdf(ReportContext context, Report report,
+            OutputStream out, FormatterListener listener) throws IOException {
         try {
             PageStore pageStore = new PageStore();
             FontRenderContext frc = new FontRenderContext(null, true, true);
@@ -46,7 +53,13 @@ public class PdfGenerator {
             PageFormat pf = new PageFormat();
             pf.setOrientation(PageFormat.PORTRAIT);
             pf.setPaper(paper);
+            if (listener != null) {
+                fmt.addListener(listener);
+            }
             fmt.format(pf);
+            if (listener != null) {
+                fmt.removeListener(listener);
+            }
             Document document = new Document(new Rectangle(
                     (float) bounds.getWidth(), (float) bounds.getHeight()));
             PdfWriter writer = PdfWriter.getInstance(document, out);
