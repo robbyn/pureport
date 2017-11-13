@@ -419,7 +419,11 @@ public class ReportReader extends DefaultHandler {
             while (tokenizer.hasMoreTokens()) {
                 String token = tokenizer.nextToken();
                 if (token.equals("italic")) {
-                    at.setAttribute(TextAttribute.POSTURE, TextAttribute.POSTURE_OBLIQUE);
+                    at.setAttribute(TextAttribute.POSTURE,
+                            TextAttribute.POSTURE_OBLIQUE);
+                } else if (token.equals("bold")) {
+                    at.setAttribute(TextAttribute.WEIGHT,
+                            TextAttribute.WEIGHT_BOLD);
                 }
             }
         }
