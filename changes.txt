@@ -1,5 +1,6 @@
 V0.22:
-    - FormatterListener, return of the beanshell
+    - FormatterListener
+    - return of the beanshell
 
 V0.21:
     -- Cleanup
